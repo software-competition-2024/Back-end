@@ -20,7 +20,7 @@ public class MainController {
         this.otcMedicineService = otcMedicineService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/otc/register")
     public ResponseEntity<OverTheCounterMedicine> registerOverTheCounterMedicine(
             @RequestBody OverTheCounterMedicine medicine) {
         OverTheCounterMedicine registeredMedicine = otcMedicineService.registerMedicine(medicine);
