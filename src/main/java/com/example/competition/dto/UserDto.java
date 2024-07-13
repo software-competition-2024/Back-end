@@ -1,4 +1,4 @@
-package com.example.competition.model;
+package com.example.competition.dto;
 
 public class UserDto {
     private String email;
