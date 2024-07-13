@@ -1,19 +1,31 @@
 package com.example.competition.dto;
 
 public class MedicineHomeDto {
+    private Long id;
     private String medicineName;
-    private String medicineType; // "처방약" 또는 "상비약"
+    private String medicineType;
     private String expirationDays;
-    private long expirationDaysInNumber; // 숫자로 유통기한을 저장
+    private long expirationDaysInNumber;
+    private String type; // 추가된 필드
 
-    public MedicineHomeDto(String medicineName, String medicineType, String expirationDays, long expirationDaysInNumber) {
+    public MedicineHomeDto(Long id, String medicineName, String medicineType, String expirationDays, long expirationDaysInNumber, String type) {
+        this.id = id;
         this.medicineName = medicineName;
         this.medicineType = medicineType;
         this.expirationDays = expirationDays;
         this.expirationDaysInNumber = expirationDaysInNumber;
+        this.type = type;
     }
 
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getMedicineName() {
         return medicineName;
     }
@@ -44,5 +56,13 @@ public class MedicineHomeDto {
 
     public void setExpirationDaysInNumber(long expirationDaysInNumber) {
         this.expirationDaysInNumber = expirationDaysInNumber;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

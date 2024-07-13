@@ -17,7 +17,7 @@ public class PrescriptionMedicine {
     private Long id;
 
     @Column(nullable = false)
-    private Date prescriptionDate;
+    private LocalDate prescriptionDate;
 
     @Column(nullable = false)
     private LocalDate expirationDate;

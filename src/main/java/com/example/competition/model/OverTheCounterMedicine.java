@@ -17,7 +17,7 @@ public class OverTheCounterMedicine {
     private Long id;
 
     @Column(nullable = false)
-    private Date openingDate;
+    private LocalDate openingDate;
 
     @Column(nullable = false)
     private LocalDate expirationDate;

@@ -1,6 +1,8 @@
 package com.example.competition.service;
 
 import com.example.competition.dto.MedicineHomeDto;
+import com.example.competition.dto.OverTheCounterMedicineDto;
+import com.example.competition.dto.PrescriptionMedicineDto;
 import com.example.competition.model.PrescriptionMedicine;
 import com.example.competition.model.OverTheCounterMedicine;
 import com.example.competition.repository.PrescriptionMedicineRepository;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.time.temporal.ChronoUnit;
 
@@ -34,10 +37,12 @@ public class MedicineService {
             LocalDate expirationDate = prescription.getExpirationDate();
             long diff = ChronoUnit.DAYS.between(today, expirationDate);
             homeData.add(new MedicineHomeDto(
+                    prescription.getId(),
                     prescription.getMedicineName(),
                     "처방약",
                     "D-" + diff,
-                    diff
+                    diff,
+                    "prescription" // 타입 지정
             ));
         }
 
@@ -45,12 +50,15 @@ public class MedicineService {
         List<OverTheCounterMedicine> overTheCounters = overTheCounterMedicineRepository.findAll();
         for (OverTheCounterMedicine overTheCounter : overTheCounters) {
             LocalDate expirationDate = overTheCounter.getExpirationDate();
+            LocalDate openingDate = overTheCounter.getOpeningDate();
             long diff = ChronoUnit.DAYS.between(today, expirationDate);
             homeData.add(new MedicineHomeDto(
+                    overTheCounter.getId(),
                     overTheCounter.getProductName(),
                     "상비약",
                     "D-" + diff,
-                    diff
+                    diff,
+                    "over_the_counter" // 타입 지정
             ));
         }
 
@@ -76,5 +84,53 @@ public class MedicineService {
         }
 
         return homeData;
+    }
+
+    public Object getMedicineByIdAndType(Long id, String type) {
+        LocalDate today = LocalDate.now();
+
+        if ("prescription".equals(type)) {
+            // 처방약 ID
+            Optional<PrescriptionMedicine> prescriptionOpt = prescriptionMedicineRepository.findById(id);
+            if (prescriptionOpt.isPresent()) {
+                PrescriptionMedicine prescription = prescriptionOpt.get();
+                LocalDate expirationDate = prescription.getExpirationDate();
+                LocalDate prescriptionDate = prescription.getPrescriptionDate();
+                long diff = ChronoUnit.DAYS.between(today, expirationDate);
+                return new PrescriptionMedicineDto(
+                        id,
+                        prescription.getMedicineName(),
+                        "D-" + diff,
+                        expirationDate,
+                        prescriptionDate,
+                        prescription.getDosageInstruction(),
+                        prescription.getPrecautions(),
+                        diff
+                );
+            }
+        } else if ("over_the_counter".equals(type)) {
+            // 상비약 ID
+            Optional<OverTheCounterMedicine> overTheCounterOpt = overTheCounterMedicineRepository.findById(id);
+            if (overTheCounterOpt.isPresent()) {
+                OverTheCounterMedicine overTheCounter = overTheCounterOpt.get();
+                LocalDate expirationDate = overTheCounter.getExpirationDate();
+                LocalDate openingDate = overTheCounter.getOpeningDate();
+                long diff = ChronoUnit.DAYS.between(today, expirationDate);
+                return new OverTheCounterMedicineDto(
+                        id,
+                        overTheCounter.getProductName(),
+                        "D-" + diff,
+                        expirationDate,
+                        openingDate,
+                        overTheCounter.getDosage(),
+                        overTheCounter.getIngredients(),
+                        overTheCounter.getClassification(), // 필드 추가
+                        diff,
+                        overTheCounter.getUser().getEmail(),
+                        overTheCounter.getPushNotificationSent() // 필드 추가
+                );
+            }
+        }
+        return null;
     }
 }
