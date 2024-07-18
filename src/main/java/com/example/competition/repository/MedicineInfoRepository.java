@@ -1,0 +1,12 @@
+package com.example.competition.repository;
+
+import com.example.competition.model.MedicineInfo;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface MedicineInfoRepository extends JpaRepository<MedicineInfo, Long> {
+    List<MedicineInfo> findByProductNameContaining(String productName);
+}
