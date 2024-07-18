@@ -1,7 +1,13 @@
 package com.example.competition.dto;
 
-import java.time.LocalDate;
+import com.example.competition.model.PrescriptionMedicine;
+import com.example.competition.model.User;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
+@Getter
+@Setter
 public class PrescriptionMedicineDto {
     private Long id;
     private String medicineName;
@@ -11,8 +17,11 @@ public class PrescriptionMedicineDto {
     private String dosageInstruction;
     private String precautions;
     private long expirationDaysInNumber;
+    private String userEmail;
+    private Boolean pushNotification;
+    private Boolean dosageNotification;
 
-    public PrescriptionMedicineDto(Long id, String medicineName, String expirationDays, LocalDate expirationDate, LocalDate prescriptionDate, String dosageInstruction, String precautions, long expirationDaysInNumber) {
+    public PrescriptionMedicineDto(Long id, String medicineName, String expirationDays, LocalDate expirationDate, LocalDate prescriptionDate, String dosageInstruction, String precautions, long expirationDaysInNumber, String userEmail, Boolean pushNotification, Boolean dosageNotification) {
         this.id = id;
         this.medicineName = medicineName;
         this.expirationDays = expirationDays;
@@ -21,10 +30,27 @@ public class PrescriptionMedicineDto {
         this.dosageInstruction = dosageInstruction;
         this.precautions = precautions;
         this.expirationDaysInNumber = expirationDaysInNumber;
+        this.userEmail = userEmail;
+        this.pushNotification = pushNotification;
+        this.dosageNotification = dosageNotification;
     }
 
+    public PrescriptionMedicine toModel(User user) {
+        PrescriptionMedicine medicine = new PrescriptionMedicine();
+        medicine.setId(this.id);
+        medicine.setMedicineName(this.medicineName);
+        medicine.setExpirationDate(this.expirationDate);
+        medicine.setPrescriptionDate(this.prescriptionDate);
+        medicine.setDosageInstruction(this.dosageInstruction);
+        medicine.setPrecautions(this.precautions);
+        medicine.setDosageNotification(this.dosageNotification);  // 필드 설정
+        medicine.setUser(user);
+        medicine.setPushNotification(this.pushNotification);  // 필드 설정
+        return medicine;
+    }
+}
 
-    // Getters and Setters
+   /* // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -42,7 +68,7 @@ public class PrescriptionMedicineDto {
     }
 
     public String getExpirationDays() {
-        return expirationDays;
+        return expirationDays;S
     }
 
     public void setExpirationDays(String expirationDays) {
@@ -89,3 +115,4 @@ public class PrescriptionMedicineDto {
         this.expirationDaysInNumber = expirationDaysInNumber;
     }
 }
+*/

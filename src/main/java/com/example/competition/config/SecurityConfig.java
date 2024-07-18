@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/h2-console/**","/home/**","/api/otc-medicines/").permitAll()
+                        .requestMatchers("/h2-console/**","/home/**","/api/otc-medicines","/api/pst-medicines").permitAll()
                         .requestMatchers("/login", "/register").permitAll()
                         .requestMatchers("/user").authenticated()
                         .anyRequest().authenticated())

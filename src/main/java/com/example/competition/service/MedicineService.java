@@ -105,7 +105,10 @@ public class MedicineService {
                         prescriptionDate,
                         prescription.getDosageInstruction(),
                         prescription.getPrecautions(),
-                        diff
+                        diff,
+                        prescription.getUser().getEmail(),
+                        prescription.getPushNotification(),
+                        prescription.getDosageNotification()
                 );
             }
         } else if ("over_the_counter".equals(type)) {
