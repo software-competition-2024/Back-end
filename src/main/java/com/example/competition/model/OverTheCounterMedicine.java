@@ -1,9 +1,15 @@
 package com.example.competition.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "over_the_counter_medicine")
 public class OverTheCounterMedicine {
     @Id
@@ -11,10 +17,10 @@ public class OverTheCounterMedicine {
     private Long id;
 
     @Column(nullable = false)
-    private Date openingDate;
+    private LocalDate openingDate;
 
     @Column(nullable = false)
-    private Date expirationDate;
+    private LocalDate expirationDate;
 
     @Column(nullable = false)
     private String productName;
@@ -30,7 +36,7 @@ public class OverTheCounterMedicine {
     @JoinColumn(name = "user_email",referencedColumnName = "email", nullable = false)
     private User user;
 
-    // Getters and Setters
+    /*// Getters and Setters
     public Long getId() {
         return id;
     }
@@ -101,5 +107,5 @@ public class OverTheCounterMedicine {
 
     public void setUser(User user) {
         this.user = user;
-    }
+    }*/
 }
